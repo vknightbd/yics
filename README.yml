@@ -1,0 +1,127 @@
+%YAML 1.2
+---
+YICS: YAML In C#
+
+Definitions:
+  document:
+    - a document start token is three dashes
+    - a document end token is three dots
+    - a stream with many documents will have many start tokens and end tokens
+    - before a document start or after a document end, directives can be used
+  sequence: 
+    - list of nodes (shortened as seq, or seqs plural)
+    - each node is value
+  hash: 
+    - list of mappings of node to node
+    - first node in mapping is key; second node is value
+    - space between key and colon is trimmed
+  node: a scalar or a collection
+  collection: a sequence or hash
+  block: 
+    - style where indentation indicates hierarchy
+    - items in collections are delimited by newlines
+  flow: 
+    - style where square brackets indicates seqs and curly braces for hashes
+    - items in collections are delimited by commas
+    - leading spaces are ignored and does not count towards indentation
+  compact block: 
+    - block style in that multi-line values are not on a separate line from 
+      the dash or colon and that the indent of the value is 
+  anchor: 
+    - a word prepended by ampersand symbol
+    - must appear before the value
+    - word does not need to be unique
+  alias:
+    - a word prepended by asterix symbol
+    - the word is the same as a previously defined anchor
+    - if multiple anchors have the same name, the alias refers to the previous one
+    - cannot appear before the anchor is defined
+  scalars:
+    both block and flow: 
+      - all trailing whitespace are ignored
+      - empty lines are treated as a significant newline
+      - empty lines at the end of a string are chomped away
+    block style:
+      all:
+        - last newline is significant
+        - all leading whitespace after indent is significant
+        - indentation indicator: 
+            - number right after block starting token to tell indentation level for
+              when first content line contains leading space characters
+            - if indicator is not specified, and lines before non empty
+              content line contain more leading spaces, it is an error and indicator
+              must be specified!
+            - if indicator is specified, the indent is temporary for that block
+              only, and can even be indented less than the parent block!
+        - block chomping indicators:
+          - none means keep last newline (default)
+          - dash strips last newline
+          - plush keeps last newline plus extra trailing newlines
+      literal:
+        - starts with pipe character
+        - all newlines are significant
+      folded:
+        - starts with greater than sign
+        - newlines are folded into spaces
+        - newline for lines with leading whitespace after indent is significant
+        - insert newline before lines with leading whitespace after indent
+        - newline before an empty line is significant
+    flow style:
+      all:
+        - all leading whitespace all ignored
+        - newlines are folded into spaces
+      plain:
+        - not using quotes, end of scalar is determined by newline and reduced indent
+      single quotes: 
+        - starts and ends a string with single quotes
+        - whitespace after opening quote is significant (special case)
+        - escaping single quotes within a string is done by doubling single quotes
+      double quotes:
+        - starts and ends a string with double quotes
+        - whitespace after opening quote is significant (special case)
+        - does not use doubled single quotes
+        - also allows escape sequences like control, unicode, and hex escapes
+  load: process of converting YAML stream to a YAML representation as YIC (C# object)
+  dump: process of converting YIC (C# object) to a YAML stream (text)
+
+Project:
+  YAML:
+    - everything is a value
+    - all collections are lists at heart
+    - sequences can be seen as mappings with integer keys
+    - mappings can be collection-collection pairs using question mark and colon
+    - anchors must appear before aliases
+    - (todo) tag uri scheme, local tags, canonial tags
+    - node comparison (3.2.1.3), must read tags or generate them in case of scalars
+    - for comparing collection nodes, it is probably easiest to produce the 
+      canonial form of the collection (i.e. turn it into string) and then compare
+      the canonial forms (string equality)
+    - tokens question, dash, and colon are part of the indentation,
+      but the space/tab after it is not part of indent
+    - comments start with a pound sign with whitespace before and after
+    - comments can even appear inside a string!
+    - if a comment appears before a value, be prepared for multiline comments
+    - be wary to deferentiate between multiline comments, and strings that start
+      with pound symbol after indent
+    - empty lines are allowed between tokens for separation
+    - whitespace are allowed between tokens for separation
+    - for node properties, anchor and tag, do not have order to be specified
+    - flow nodes can be embedded in block nodes, but not vice-versa!
+
+  Load: 
+    - 
+      Relational Trees, if YICS encounters a list of hashes, 
+      YICS will look for the smallest hash in the list and determine if its`
+      key-value pairs are repeated at least twice in other hashes.  
+      If so, the smallest hash is given an anchor, and other hashes are given
+      a reference and hash merge.
+    -
+      For hashes where the keys and values are scalars, 
+      if keys in a hash are less than 12 characters long, YICS will
+      attempt to line up the colons so that the values will also line up.
+  Dump:
+    - if a string contains a pound symbol prepended by whitespace,
+      then the string must be dumped in quoted style (not plain style)
+  Options:
+    debug dump: dump with all tags explicit in block style
+...
