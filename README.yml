@@ -81,8 +81,16 @@ Definitions:
         - whitespace after opening quote is significant (special case)
         - does not use doubled single quotes
         - also allows escape sequences like control, unicode, and hex escapes
-  load: process of converting YAML stream to a YAML representation as YIC (C# object)
-  dump: process of converting YIC (C# object) to a YAML stream (text)
+  load: 
+    - process of converting YAML stream to a YAML representation as YIC (C# object)
+    - parse: 
+      compose:
+      construct:
+  dump: 
+    - process of converting YIC (C# object) to a YAML stream (text)
+    - represent: turn data structure to node graph
+      serialize: node graph to event tree
+      present: event tree to character stream
 
 Project:
   YAML:
@@ -107,6 +115,9 @@ Project:
     - whitespace are allowed between tokens for separation
     - for node properties, anchor and tag, do not have order to be specified
     - flow nodes can be embedded in block nodes, but not vice-versa!
+    - in presentation, suffix must not contain ![]{}, characters,
+      but they can exist in the representation before dump operation,
+      and they can exist after dump if in verbetim tag format
 
   Load: 
     - 
