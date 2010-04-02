@@ -4,8 +4,6 @@ namespace YICS.Representation
 {
     public class Scalar : Node
     {
-        public object Value = null;
-
         public Scalar() : this(null)
         {
         }
@@ -19,6 +17,8 @@ namespace YICS.Representation
             Value = value;
             Tag = tag;
         }
+
+        public object Value { get; set; }
 
         #region override Equals
         public override bool Equals(object obj)

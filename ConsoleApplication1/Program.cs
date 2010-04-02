@@ -10,9 +10,21 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            Scalar s = new Scalar("Yo momma");
-            Console.WriteLine(s);
-            Console.WriteLine(s.Tag);
+            Sequence seq = new Sequence();
+
+            Scalar str1 = new Scalar("Yo momma");
+            Console.WriteLine(str1);
+            Console.WriteLine(str1.Tag);
+            Console.WriteLine();
+
+            Scalar str2 = new Scalar("Hello World");
+            Scalar str3 = new Scalar("Fee Fi Fo Fum");
+
+            seq.Add(str1);
+            seq.Add(str2);
+            seq.Add(str3);
+            Console.WriteLine(seq);
+            Console.WriteLine(seq.Tag);
 
             Console.WriteLine();
             Console.WriteLine("Press any key to continue...");
