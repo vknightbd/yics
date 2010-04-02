@@ -45,11 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Representation\Node.cs" />
+    <Compile Include="Representation\Scalar.cs" />
     <Compile Include="Representation\Tag.cs" />
     <Compile Include="Representation\TagConsts.cs" />
+    <Compile Include="Representation\TagScalar.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

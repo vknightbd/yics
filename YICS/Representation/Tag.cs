@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace YICS.Representation
 {
-    public partial class Tag
+    public abstract partial class Tag
     {
-        public enum KindType { Mapping, Sequence, Scalar };
+        public enum KindType { Unknown, Mapping, Sequence, Scalar };
 
         public string Name { get; set; }
-        public KindType Kind { get; set; }
+        public virtual KindType Kind { get { return KindType.Unknown; } }
 
         public string Prefix
         {
@@ -47,6 +44,27 @@ namespace YICS.Representation
             if (IsURI()) return true;
 
             return false;
+        }
+
+        public bool IsCollection()
+        {
+            if (Kind == KindType.Unknown) throw new InvalidOperationException("Tag does not have a Kind set.");
+
+            return Kind != KindType.Scalar;
+        }
+
+        public bool IsScalar()
+        {
+            if (Kind == KindType.Unknown) throw new InvalidOperationException("Tag does not have a Kind set.");
+
+            return Kind == KindType.Scalar;
+        }
+
+        public abstract string CanonicalFormat(Node node);
+
+        public override string ToString()
+        {
+            return Name;
         }
 
         private bool IsNameContainsOnlyURICharacters()
