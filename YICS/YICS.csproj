@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Representation\Nodes\MappingSerialization.cs" />
+    <Compile Include="Representation\Nodes\Alias.cs" />
     <Compile Include="Representation\Nodes\Mapping.cs" />
     <Compile Include="Representation\Node.cs" />
     <Compile Include="Representation\Nodes\Scalar.cs" />

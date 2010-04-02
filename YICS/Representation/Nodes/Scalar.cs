@@ -2,7 +2,7 @@
 
 namespace YICS.Representation
 {
-    public class Scalar : Node
+    public class Scalar : Node, IComparable<Scalar>
     {
         public Scalar() : this(null)
         {
@@ -16,6 +16,7 @@ namespace YICS.Representation
         {
             Value = value;
             Tag = tag;
+            AnchorHandle = null;
         }
 
         public object Value { get; set; }
@@ -40,6 +41,15 @@ namespace YICS.Representation
         {
             return Value.GetHashCode();
         }
+        #endregion
+
+        #region IComparable<Scalar> Members
+
+        public int CompareTo(Scalar other)
+        {
+            return CanonicalContent.CompareTo(other.CanonicalContent);
+        }
+
         #endregion
     }
 }

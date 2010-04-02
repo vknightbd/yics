@@ -12,6 +12,7 @@ namespace YICS.Representation
         public Sequence(Tag tag)
         {
             Tag = tag;
+            AnchorHandle = null;
             list = new List<Node>();
         }
 

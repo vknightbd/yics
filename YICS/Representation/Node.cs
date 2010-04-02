@@ -5,6 +5,7 @@ namespace YICS.Representation
     public abstract class Node
     {
         public Tag Tag { get; set; }
+        public string AnchorHandle { get; set; }
 
         public virtual string CanonicalContent
         {

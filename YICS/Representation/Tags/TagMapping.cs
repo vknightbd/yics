@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace YICS.Representation
@@ -27,9 +25,9 @@ namespace YICS.Representation
             foreach (var kvp in (Mapping)node)
             {
                 canonForm.Append("? ");
-                canonForm.AppendLine(kvp.Key.CanonicalContent.IndentContent());
+                canonForm.AppendLine(kvp.Key.CanonicalContent.IndentContent()); // NOTE: possible stack overflow here if node contains cycles
                 canonForm.Append(": ");
-                canonForm.AppendLine(kvp.Value.CanonicalContent.IndentContent());
+                canonForm.AppendLine(kvp.Value.CanonicalContent.IndentContent()); // NOTE: possible stack overflow here if node contains cycles
             }
 
             return canonForm.ToString();

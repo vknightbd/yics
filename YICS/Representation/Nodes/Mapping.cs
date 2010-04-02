@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace YICS.Representation
 {
-    public class Mapping : Node, IDictionary<Node, Node>
+    public partial class Mapping : Node, IDictionary<Node, Node>
     {
         public Mapping()
             : this(new TagMapping())
@@ -15,10 +12,11 @@ namespace YICS.Representation
         public Mapping(Tag tag)
         {
             Tag = tag;
+            AnchorHandle = null;
             dictionary = new Dictionary<Node, Node>();
         }
 
-        private Dictionary<Node, Node> dictionary;
+        protected Dictionary<Node, Node> dictionary;
 
         #region IDictionary<Node,Node> Members
 
@@ -83,7 +81,8 @@ namespace YICS.Representation
 
         public bool Contains(KeyValuePair<Node, Node> item)
         {
-            return dictionary.Contains(item);
+            if (!dictionary.ContainsKey(item.Key)) return false;
+            return dictionary[item.Key].Equals(item.Value);
         }
 
         public void CopyTo(KeyValuePair<Node, Node>[] array, int arrayIndex)

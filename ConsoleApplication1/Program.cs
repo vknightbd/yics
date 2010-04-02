@@ -28,6 +28,11 @@ namespace ConsoleApplication1
             Console.WriteLine(map.Tag);
             Console.WriteLine();
 
+            /* stack overflow
+            seq.Add(map);
+            Console.WriteLine(seq);
+             */
+
             Console.WriteLine();
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
