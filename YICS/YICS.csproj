@@ -46,11 +46,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Representation\Nodes\Mapping.cs" />
     <Compile Include="Representation\Node.cs" />
     <Compile Include="Representation\Nodes\Scalar.cs" />
     <Compile Include="Representation\Nodes\Sequence.cs" />
+    <Compile Include="Representation\StringExtensions.cs" />
     <Compile Include="Representation\Tag.cs" />
     <Compile Include="Representation\TagConsts.cs" />
+    <Compile Include="Representation\Tags\TagMapping.cs" />
     <Compile Include="Representation\Tags\TagSequence.cs" />
     <Compile Include="Representation\Tags\TagScalar.cs" />
   </ItemGroup>

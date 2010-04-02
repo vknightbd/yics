@@ -25,7 +25,7 @@ namespace YICS.Representation
             foreach (Node n in (Sequence)node)
             {
                 canonForm.Append("- ");
-                canonForm.AppendLine(n.CanonicalContent);
+                canonForm.AppendLine(n.CanonicalContent.IndentContent());
             }
 
             return canonForm.ToString();
