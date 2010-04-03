@@ -15,6 +15,12 @@ namespace YICS.Representation
             Name = name;
         }
 
+        
+        /// <summary>
+        /// CanonicalFormat() converts a representational model direct to string.
+        /// Note this method does not detect cyclical paths which causes stack overflow. Use YICS.Serializer instead.
+        /// </summary>
+        //[System.Obsolete("CanonicalFormat() converts a representational model direct to string, but does not detect cyclical paths which causes stack overflow. Use YICS.Serializer instead.")]
         public override string CanonicalFormat(Node node)
         {
             if (node.GetType() != typeof(Mapping) && !node.GetType().IsSubclassOf(typeof(Mapping)))

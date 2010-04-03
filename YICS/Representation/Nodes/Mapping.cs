@@ -16,12 +16,63 @@ namespace YICS.Representation
             dictionary = new Dictionary<Node, Node>();
         }
 
-        /// <summary>Add nodes to mapping but will add Alias instead if key node is already in the mapping.</summary>
-        public void AddAsAliasIfDuplicate(Node key, Node value) {
-            throw new System.NotImplementedException();
+        protected Dictionary<Node, Node> dictionary;
+
+        #region AddWithCheck
+        /// <summary>Add nodes to mapping but will throw an exception if key node contains an equal key in the mapping.</summary>
+        public bool AddWithCheck(Node key, Node value)
+        {
+            var thisHashCode = new List<int>() { this.GetHashCode() };
+
+            var keyHashCodes = new Dictionary<int, Node>();
+            foreach (Node localKey in dictionary.Keys)
+            {
+                keyHashCodes.Add(localKey.GetNodeHashCode(ref thisHashCode), localKey);
+            }
+
+            int keyHashCode = key.GetNodeHashCode(ref thisHashCode);
+            if (keyHashCodes.ContainsKey(keyHashCode))
+            {
+                return false;
+            }
+
+            Add(key, value);
+            return true;
         }
 
-        protected Dictionary<Node, Node> dictionary;
+        public override int GetNodeHashCode(ref List<int> existingNodeHashCodes)
+        {
+            var sb = new System.Text.StringBuilder();
+            foreach (var kvp in dictionary)
+            {
+                int keyHashCode = kvp.Key.GetHashCode();
+                if (existingNodeHashCodes.Contains(keyHashCode))
+                {
+                    sb.Append(keyHashCode);
+                }
+                else
+                {
+                    existingNodeHashCodes.Add(keyHashCode);
+                    sb.Append(kvp.Key.GetNodeHashCode(ref existingNodeHashCodes));
+                }
+
+                int valueHashCode = kvp.Value.GetHashCode();
+                if (existingNodeHashCodes.Contains(valueHashCode))
+                {
+                    sb.Append(valueHashCode);
+                }
+                else
+                {
+                    existingNodeHashCodes.Add(valueHashCode);
+                    sb.Append(kvp.Value.GetNodeHashCode(ref existingNodeHashCodes));
+                }
+
+                sb.AppendLine();
+            }
+
+            return sb.ToString().GetHashCode();
+        }
+        #endregion
 
         #region IDictionary<Node,Node> Members
 

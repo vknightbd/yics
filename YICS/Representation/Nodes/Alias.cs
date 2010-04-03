@@ -28,5 +28,7 @@ namespace YICS.Representation
         public override bool Equals(object obj) { return Anchor.Equals(obj); }
 
         public override int GetHashCode() { return Anchor.GetHashCode(); }
+
+        public override int GetNodeHashCode(ref List<int> existingNodeHashCodes) { return Anchor.GetNodeHashCode(ref existingNodeHashCodes); }
     }
 }

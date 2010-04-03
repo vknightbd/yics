@@ -10,6 +10,7 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Example: Scalar");
             Scalar str1 = new Scalar("Yo momma");
             Console.WriteLine(str1);
             Console.WriteLine(str1.Tag);
@@ -18,21 +19,24 @@ namespace ConsoleApplication1
             Scalar str2 = new Scalar("Hello World");
             Scalar str3 = new Scalar("Fee Fi Fo Fum");
 
+            Console.WriteLine("Example: Sequence");
             Sequence seq = new Sequence() { str1, str2, str3 };
             Console.WriteLine(seq);
             Console.WriteLine(seq.Tag);
-            //Console.WriteLine(seq.GetHashCode());
+            Console.WriteLine(seq.GetHashCode());
             Console.WriteLine();
 
+            Console.WriteLine("Example: Mapping");
             Mapping map = new Mapping() { { seq, str1 }, { str2, seq } };
             Console.WriteLine(map);
             Console.WriteLine(map.Tag);
-            //Console.WriteLine(map.GetHashCode());
+            Console.WriteLine(map.GetHashCode());
             Mapping map2 = new Mapping() { { seq, str1 }, { str2, seq } };
-            //Console.WriteLine(map2.GetHashCode()); // hmm... different objects, but same hash code?  I guess that is okay since value is same
-            Console.WriteLine(map.Equals(map2)); // expect true;
+            Console.WriteLine(map2.GetHashCode()); // hmm... same value, but different hash code?
+            Console.WriteLine(map.Equals(map2)); // we get the expected true for same values
+            Console.WriteLine();
 
-
+            Console.WriteLine("Example: Cyclic");
             seq.Add(map);
             /* &seq
              *   - &str1 Yo momma

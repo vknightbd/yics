@@ -15,10 +15,29 @@ namespace YICS.Representation
             list = new List<Node>();
         }
 
-        /// <summary>Add node to sequence but will add Alias instead if node is already in the sequence.</summary>
-        public void AddAsAliasIfDuplicate(Node node) {
-            throw new System.NotImplementedException();
+        #region AddWithCheck
+        public override int GetNodeHashCode(ref List<int> existingNodeHashCodes)
+        {
+            var sb = new System.Text.StringBuilder();
+            foreach (Node item in list)
+            {
+                int itemHashCode = item.GetHashCode();
+                if (existingNodeHashCodes.Contains(itemHashCode))
+                {
+                    sb.Append(itemHashCode);
+                }
+                else
+                {
+                    existingNodeHashCodes.Add(itemHashCode);
+                    sb.Append(item.GetNodeHashCode(ref existingNodeHashCodes));
+                }
+
+                sb.AppendLine();
+            }
+
+            return sb.ToString().GetHashCode();
         }
+        #endregion
 
         private List<Node> list { get; set; }
 

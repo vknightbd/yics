@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace YICS.Representation
 {
@@ -40,6 +41,13 @@ namespace YICS.Representation
         public override int GetHashCode()
         {
             return (Tag.Name + Value).GetHashCode();
+        }
+        #endregion
+
+        #region AddWithCheck
+        public override int GetNodeHashCode(ref List<int> existingNodeHashCodes)
+        {
+            return GetHashCode();
         }
         #endregion
 

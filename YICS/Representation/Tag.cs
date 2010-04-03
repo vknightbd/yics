@@ -60,7 +60,10 @@ namespace YICS.Representation
             return Kind == KindType.Scalar;
         }
 
-        public abstract string CanonicalFormat(Node node);
+        public virtual string CanonicalFormat(Node node)
+        {
+            return null;
+        }
 
         public override string ToString()
         {
