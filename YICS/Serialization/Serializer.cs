@@ -28,8 +28,6 @@ namespace YICS.Serialization
         }
 
         private void Serialize(Node node) {
-
-
             if (node.IsCollection())
             {
                 anchorList.Add(node);
@@ -37,63 +35,66 @@ namespace YICS.Serialization
                 if (node.Tag.Kind == Tag.KindType.Sequence)
                 {
                     Sequence sequence = (Sequence)node;
-
-                    var aliasList = new List<Node>();
-                    foreach (Node item in sequence)
-                    {
-                        if (anchorList.Contains(item))
-                        {
-                            aliasList.Add(item);
-                        }
-                        else
-                        {
-                            Serialize(item);
-                        }
-                    }
-
-                    foreach (Node item in aliasList)
-                    {
-                        Alias alias = anchorList.GetAlias(item);
-
-                        int index = sequence.IndexOf(node);
-                        sequence.Remove(item);
-                        sequence.Insert(index, alias);
-                    }
+                    SerializeSequence(sequence);
                 }
                 else if (node.Tag.Kind == Tag.KindType.Mapping)
                 {
                     Mapping mapping = (Mapping)node;
+                    SerializeMapping(mapping);
 
-                    var aliasKeys = new List<Node>();
+                }
+            }
+        }
 
-                    foreach (var kvp in mapping)
-                    {
-                        if (anchorList.Contains(kvp.Key))
-                        {
-                            aliasKeys.Add(kvp.Key);
-                        }
-                        else
-                        {
-                            Serialize(kvp.Key);
-                        }
+        private void SerializeMapping(Mapping mapping)
+        {
 
-                        if (anchorList.Contains(kvp.Value))
-                        {
-                            mapping[kvp.Key] = anchorList.GetAlias(kvp.Value);
-                        }
-                        else
-                        {
-                            Serialize(kvp.Value);
-                        }
-                    }
+            var keys = new List<Node>(mapping.Keys);
 
-                    foreach (Node anchorKey in aliasKeys)
-                    {
-                        Alias key = anchorList.GetAlias(anchorKey);
-                        Node value = mapping[anchorKey];
-                        mapping.Remove(anchorKey);
-                        mapping.Add(key, value);
-                    }
+            foreach (var node in keys)
+            {
+                Node key = node;
+                Node value = mapping[key];
+
+                if (anchorList.Contains(key))
+                {
+                    Alias aliasKey = anchorList.GetAlias(key);
+                    mapping.Remove(key);
+                    mapping.Add(aliasKey, value);
+                    key = aliasKey;
+                }
+                else
+                {
+                    Serialize(key);
+                }
+
+                if (anchorList.Contains(value))
+                {
+                    Alias aliasValue = anchorList.GetAlias(value);
+                    mapping[key] = aliasValue;
+                }
+                else
+                {
+                    Serialize(value);
+                }
+            }
+        }
+
+        private void SerializeSequence(Sequence sequence)
+        {
+            for (int i = 0; i < sequence.Count; i++)
+            {
+                Node item = sequence[i];
+                if (anchorList.Contains(item))
+                {
+                    Alias alias = anchorList.GetAlias(item);
+
+                    sequence.RemoveAt(i);
+                    sequence.Insert(i, alias);
+                }
+                else
+                {
+                    Serialize(item);
                 }
             }
         }

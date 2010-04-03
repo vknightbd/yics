@@ -15,6 +15,8 @@ namespace YICS.Representation
             list = new List<Node>();
         }
 
+        private List<Node> list { get; set; }
+
         #region AddWithCheck
         public override int GetNodeHashCode(ref List<int> existingNodeHashCodes)
         {
@@ -38,8 +40,6 @@ namespace YICS.Representation
             return sb.ToString().GetHashCode();
         }
         #endregion
-
-        private List<Node> list { get; set; }
 
         #region IList<Node> Members
 
@@ -78,6 +78,8 @@ namespace YICS.Representation
         {
             list.Add(item);
         }
+
+        public void Add(object value) { list.Add(new Scalar(value)); }
 
         public void Clear()
         {

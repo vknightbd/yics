@@ -15,7 +15,7 @@ namespace YICS.Representation
             Name = name;
         }
 
-        public override Tag.KindType Kind { get { return KindType.Scalar; } }
+        public override Tag.KindType Kind { get { return KindType.Sequence; } }
 
         /// <summary>
         /// CanonicalFormat() converts a representational model direct to string.
@@ -28,6 +28,11 @@ namespace YICS.Representation
                 throw new InvalidOperationException("TagSequence can only be applied to Sequence nodes.");
 
             StringBuilder canonForm = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(node.AnchorHandle))
+            {
+                canonForm.AppendLine("&" + node.AnchorHandle);
+            }
 
             foreach (Node n in (Sequence)node)
             {

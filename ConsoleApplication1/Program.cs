@@ -51,6 +51,10 @@ namespace ConsoleApplication1
             //Console.WriteLine(seq.GetHashCode());
             //Console.WriteLine(map.GetHashCode());
 
+            Sequence seq2 = new Sequence() { "See Saw", "Winter" };
+            seq.Add(seq2);
+            seq.Add(seq2);
+
             Serializer serializer = new Serializer();
             serializer.CreateEventTree(map);
             Console.WriteLine(map);

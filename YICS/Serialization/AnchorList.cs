@@ -36,6 +36,9 @@ namespace YICS.Serialization
             };
 
             list.Add(record.HashCode, record);
+            node.AnchorHandle = record.Handle;
+
+            handleCounter++;
         }
 
         public bool Contains(Node node)

@@ -29,6 +29,11 @@ namespace YICS.Representation
 
             StringBuilder canonForm = new StringBuilder();
 
+            if (!string.IsNullOrEmpty(node.AnchorHandle))
+            {
+                canonForm.AppendLine("&" + node.AnchorHandle);
+            }
+
             foreach (var kvp in (Mapping)node)
             {
                 canonForm.Append("? ");

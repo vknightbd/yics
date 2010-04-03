@@ -14,7 +14,8 @@ namespace YICS.Representation
 
         public Node Anchor { get; set; }
 
-        public override string CanonicalContent { get { return Anchor.CanonicalContent; } }
+        //public override string CanonicalContent { get { return Anchor.CanonicalContent; } }
+        public override string CanonicalContent { get { return "*" + AnchorHandle; } }
 
         public override bool IsCollection() { return Anchor.IsCollection(); }
 
