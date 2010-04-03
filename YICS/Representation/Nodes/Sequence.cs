@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 
 namespace YICS.Representation
 {
@@ -14,6 +13,11 @@ namespace YICS.Representation
             Tag = tag;
             AnchorHandle = null;
             list = new List<Node>();
+        }
+
+        /// <summary>Add node to sequence but will add Alias instead if node is already in the sequence.</summary>
+        public void AddAsAliasIfDuplicate(Node node) {
+            throw new System.NotImplementedException();
         }
 
         private List<Node> list { get; set; }
@@ -119,6 +123,8 @@ namespace YICS.Representation
 
         public bool Equals(Sequence sequence)
         {
+            if (this == sequence) return true; // if object references are identical, no need to check values
+
             if (this.Count != sequence.Count) return false;
 
             for (int i = 0; i < this.Count; i++)
@@ -131,13 +137,7 @@ namespace YICS.Representation
 
         public override int GetHashCode()
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (Node node in list)
-            {
-                sb.AppendLine(node.GetHashCode().ToString());
-            }
-
-            return sb.ToString().GetHashCode();
+            return base.GetHashCode();
         }
         #endregion
     }

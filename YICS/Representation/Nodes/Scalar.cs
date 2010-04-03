@@ -34,12 +34,12 @@ namespace YICS.Representation
 
         public bool Equals(Scalar scalar)
         {
-            return this.Value.Equals(scalar.Value);
+            return this.GetHashCode() == scalar.GetHashCode();
         }
 
         public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return (Tag.Name + Value).GetHashCode();
         }
         #endregion
 

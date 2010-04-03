@@ -3,14 +3,14 @@ using System.Text;
 
 namespace YICS.Representation
 {
-    public class TagMapping:Tag
+    public class TagMapping : Tag
     {
-                public TagMapping()
+        public TagMapping()
         {
             Name = Tag.SecondaryNamespace + ":map";
         }
 
-                public TagMapping(string name)
+        public TagMapping(string name)
         {
             Name = name;
         }

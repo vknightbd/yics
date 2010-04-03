@@ -16,6 +16,11 @@ namespace YICS.Representation
             dictionary = new Dictionary<Node, Node>();
         }
 
+        /// <summary>Add nodes to mapping but will add Alias instead if key node is already in the mapping.</summary>
+        public void AddAsAliasIfDuplicate(Node key, Node value) {
+            throw new System.NotImplementedException();
+        }
+
         protected Dictionary<Node, Node> dictionary;
 
         #region IDictionary<Node,Node> Members
@@ -135,6 +140,42 @@ namespace YICS.Representation
             return dictionary.GetEnumerator();
         }
 
+        #endregion
+
+        #region override Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+
+            Mapping mapping = obj as Mapping;
+            if ((object)mapping == null) return false;
+
+            return this.Equals(mapping);
+        }
+
+        public bool Equals(Mapping mapping)
+        {
+            if (this == mapping) return true; // if object references are identical, no need to check values
+
+            if (this.Count != mapping.Count) return false;
+
+            foreach (Node key in this.Keys)
+            {
+                if (!mapping.ContainsKey(key)) return false;
+            }
+
+            foreach (Node key in this.Keys)
+            {
+                if (!this[key].Equals(mapping[key])) return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         #endregion
     }
 }
