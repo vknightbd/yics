@@ -5,19 +5,14 @@ namespace YICS.Representation
 {
     public class Alias : Node
     {
-        internal Alias(string handle)
+        internal Alias(string handle, Node anchor)
         {
-            Tag = null;
             AnchorHandle = handle;
+            Anchor = anchor;
+            Tag = Anchor.Tag;
         }
 
-        public Node Anchor
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Node Anchor { get; set; }
 
         public override string CanonicalContent { get { return Anchor.CanonicalContent; } }
 

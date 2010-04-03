@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using YICS.Representation;
+using YICS.Serialization;
 
 namespace ConsoleApplication1
 {
@@ -37,7 +38,7 @@ namespace ConsoleApplication1
             Console.WriteLine();
 
             Console.WriteLine("Example: Cyclic");
-            seq.Add(map);
+            //seq.Add(map);
             /* &seq
              *   - &str1 Yo momma
              *   - &str2 Hello World
@@ -47,8 +48,12 @@ namespace ConsoleApplication1
              *     ? *str2 : *seq
              */
             //Console.WriteLine(seq);
-            Console.WriteLine(seq.GetHashCode());
-            Console.WriteLine(map.GetHashCode());
+            //Console.WriteLine(seq.GetHashCode());
+            //Console.WriteLine(map.GetHashCode());
+
+            Serializer serializer = new Serializer();
+            serializer.CreateEventTree(map);
+            Console.WriteLine(map);
 
             Console.WriteLine();
             Console.WriteLine("Press any key to continue...");

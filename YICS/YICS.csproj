@@ -58,6 +58,9 @@
     <Compile Include="Representation\Tags\TagMapping.cs" />
     <Compile Include="Representation\Tags\TagSequence.cs" />
     <Compile Include="Representation\Tags\TagScalar.cs" />
+    <Compile Include="Serialization\AnchorList.cs" />
+    <Compile Include="Serialization\AnchorRecord.cs" />
+    <Compile Include="Serialization\Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

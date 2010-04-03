@@ -7,7 +7,7 @@ namespace YICS.Representation
         public enum KindType { Unknown, Mapping, Sequence, Scalar };
 
         public string Name { get; set; }
-        public virtual KindType Kind { get { return KindType.Unknown; } }
+        public abstract KindType Kind { get; }
 
         public string Prefix
         {

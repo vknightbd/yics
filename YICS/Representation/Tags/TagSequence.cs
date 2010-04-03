@@ -15,6 +15,8 @@ namespace YICS.Representation
             Name = name;
         }
 
+        public override Tag.KindType Kind { get { return KindType.Scalar; } }
+
         /// <summary>
         /// CanonicalFormat() converts a representational model direct to string.
         /// Note this method does not detect cyclical paths which causes stack overflow. Use YICS.Serializer instead.
