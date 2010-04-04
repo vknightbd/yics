@@ -52,5 +52,11 @@ namespace YICS.Serialization
             record.HasAlias = true;
             return new Alias(record.Handle, record.Node);
         }
+
+        public bool HasAlias(Node node)
+        {
+            var record = list[node.GetHashCode()];
+            return record.HasAlias;
+        }
     }
 }

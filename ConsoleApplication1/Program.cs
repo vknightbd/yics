@@ -54,10 +54,11 @@ namespace ConsoleApplication1
             Sequence seq2 = new Sequence() { "See Saw", "Winter" };
             seq.Add(seq2);
             seq.Add(seq2);
+            seq.Add(map);
 
-            Serializer serializer = new Serializer();
-            serializer.CreateEventTree(map);
-            Console.WriteLine(map);
+            Serializer serializer = new Serializer(map);
+            serializer.CreateEventTree();
+            Console.WriteLine(serializer.GetCharacterStream());
 
             Console.WriteLine();
             Console.WriteLine("Press any key to continue...");

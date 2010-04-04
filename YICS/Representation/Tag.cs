@@ -60,10 +60,17 @@ namespace YICS.Representation
             return Kind == KindType.Scalar;
         }
 
-        public virtual string CanonicalFormat(Node node)
-        {
-            return null;
-        }
+        /// <summary>
+        /// Returns a formatted string for content. Performed during Serialize.GetChearacterStream()
+        /// </summary>
+        /// <param name="indentWidth"></param>
+        public abstract string PresentContent(Node node, Serialization.PresentationOptions options);
+
+        /// <summary>
+        /// Returns a formatted string for content. Required for Scalar nodes. Unused otherwise.
+        /// </summary>
+        /// <param name="node"></param>
+        public abstract string CanonicalFormat(Node node);
 
         public override string ToString()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace YICS.Representation
 {
@@ -43,6 +44,41 @@ namespace YICS.Representation
             }
 
             return canonForm.ToString();
+        }
+
+        public virtual IEnumerable<Node> OrderKeys(Mapping node)
+        {
+            // check if keys are scalar (therefore sortable)
+            bool isAllScalarKeys = true;
+            foreach (Node key in node.Keys)
+            {
+                if (key.GetType() != typeof(Alias) && key.IsCollection())
+                {
+                    isAllScalarKeys = false;
+                    break;
+                }
+            }
+
+            // don't sort unless all keys are scalar
+            if (!isAllScalarKeys) return node.Keys;
+
+            // sort keys
+            List<Node> tmpKeys = new List<Node>();
+            foreach (Node key in node.Keys)
+            {
+                tmpKeys.Add(key);
+            }
+
+            tmpKeys.Sort(); // sort scalar keys by Scalar CompareTo (default string CompareTo)
+
+            return tmpKeys;
+        }
+
+        public override string PresentContent(Node node, Serialization.PresentationOptions options)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(CanonicalFormat(node));
+            return sb.ToString();
         }
     }
 }

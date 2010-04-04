@@ -42,5 +42,10 @@ namespace YICS.Representation
 
             return canonForm.ToString();
         }
+
+        public override string PresentContent(Node node, Serialization.PresentationOptions options)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

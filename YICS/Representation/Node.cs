@@ -21,6 +21,14 @@ namespace YICS.Representation
         }
 
         /// <summary>
+        /// uses Tag.PresentContent() to convert a event tree directly to string.
+        /// </summary>
+        public virtual string PresentContent(Serialization.PresentationOptions options)
+        {
+            return Tag.PresentContent(this, options); // Tag determines how the node is outputted to string
+        }
+        
+        /// <summary>
         /// Get a HashCode for the Node. Used by collection nodes when determining if node already in list.
         /// </summary>
         /// <param name="existingNodeHashCodes">List of int from Object.GetHashCode() to ensure we don't follow cycles in tree.</param>

@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Representation\Nodes\MappingSerialization.cs" />
     <Compile Include="Representation\Nodes\Alias.cs" />
     <Compile Include="Representation\Nodes\Mapping.cs" />
     <Compile Include="Representation\Node.cs" />
@@ -60,6 +59,9 @@
     <Compile Include="Representation\Tags\TagScalar.cs" />
     <Compile Include="Serialization\AnchorList.cs" />
     <Compile Include="Serialization\AnchorRecord.cs" />
+    <Compile Include="Serialization\CreateEventTree.cs" />
+    <Compile Include="Serialization\GetCharacterStream.cs" />
+    <Compile Include="Serialization\PresentationOptions.cs" />
     <Compile Include="Serialization\Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

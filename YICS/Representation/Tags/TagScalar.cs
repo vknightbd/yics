@@ -23,5 +23,10 @@ namespace YICS.Representation
 
             return ((Scalar)node).Value.ToString();
         }
+
+        public override string PresentContent(Node node, Serialization.PresentationOptions options)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
