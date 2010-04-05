@@ -17,14 +17,29 @@ namespace YICS.Representation
         //public override string CanonicalContent { get { return Anchor.CanonicalContent; } }
         public override string CanonicalContent { get { return "*" + AnchorHandle; } }
 
+        public override string PresentContent(YICS.Serialization.Serializer serializer)
+        {
+            return "*" + AnchorHandle;
+        }
+
         public override bool IsCollection() { return Anchor.IsCollection(); }
 
         public override bool IsScalar() { return Anchor.IsScalar(); }
 
+        /* commented out because overriding Equals causes dictionary[aliasAsIndex] to fail
         public override bool Equals(object obj) { return Anchor.Equals(obj); }
-
         public override int GetHashCode() { return Anchor.GetHashCode(); }
-
         public override int GetNodeHashCode(ref List<int> existingNodeHashCodes) { return Anchor.GetNodeHashCode(ref existingNodeHashCodes); }
+         */
+        public override int GetNodeHashCode(ref List<int> existingNodeHashCodes) { return GetHashCode(); }
+
+        #region IComparable<Alias> Members
+
+        public int CompareTo(Alias other)
+        {
+            return AnchorHandle.CompareTo(other.AnchorHandle);
+        }
+
+        #endregion
     }
 }

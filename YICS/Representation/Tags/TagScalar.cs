@@ -21,12 +21,16 @@ namespace YICS.Representation
             if (node.GetType() != typeof(Scalar) && !node.GetType().IsSubclassOf(typeof(Scalar)))
                 throw new InvalidOperationException("TagScalar can only be applied to Scalar nodes.");
 
+            /* todo: wrap strings in quotes if they contain starting or trailing strings;
+             *       or put string in block/fold format if they are too long
+             */
+
             return ((Scalar)node).Value.ToString();
         }
 
-        public override string PresentContent(Node node, Serialization.PresentationOptions options)
+        public override string PresentContent(Node node, Serialization.Serializer serializer)
         {
-            throw new NotImplementedException();
+            return node.CanonicalContent;
         }
     }
 }

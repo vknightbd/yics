@@ -38,14 +38,21 @@ namespace ConsoleApplication1
             Console.WriteLine();
 
             Console.WriteLine("Example: Cyclic");
-            //seq.Add(map);
             /* &seq
              *   - &str1 Yo momma
              *   - &str2 Hello World
              *   - &str3 Fee Fi Fo Fum
+             *   - &seq2
+             *     - See Saw
+             *     - Winter
+             *   - *seq2
              *   - &map
              *     ? *seq  : *str1
              *     ? *str2 : *seq
+             *   - &map2
+             *     ? *seq  : *str1
+             *     ? *str2 : *seq
+             *     
              */
             //Console.WriteLine(seq);
             //Console.WriteLine(seq.GetHashCode());
@@ -55,8 +62,9 @@ namespace ConsoleApplication1
             seq.Add(seq2);
             seq.Add(seq2);
             seq.Add(map);
+            seq.Add(map2);
 
-            Serializer serializer = new Serializer(map);
+            Serializer serializer = new Serializer(seq);
             serializer.CreateEventTree();
             Console.WriteLine(serializer.GetCharacterStream());
 

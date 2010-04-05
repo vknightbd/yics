@@ -23,9 +23,9 @@ namespace YICS.Representation
         /// <summary>
         /// uses Tag.PresentContent() to convert a event tree directly to string.
         /// </summary>
-        public virtual string PresentContent(Serialization.PresentationOptions options)
+        public virtual string PresentContent(Serialization.Serializer serializer)
         {
-            return Tag.PresentContent(this, options); // Tag determines how the node is outputted to string
+            return Tag.PresentContent(this, serializer); // Tag determines how the node is outputted to string
         }
         
         /// <summary>
@@ -46,6 +46,10 @@ namespace YICS.Representation
             if (Tag == null) throw new InvalidOperationException("Node does not have a tag.");
 
             return Tag.IsScalar();
+        }
+
+        public virtual bool IsAlias() {
+            return this.GetType() == typeof(Alias);
         }
 
         public override string ToString()

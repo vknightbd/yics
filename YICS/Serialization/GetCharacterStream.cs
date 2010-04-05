@@ -76,13 +76,13 @@ namespace YICS.Serialization
             return cs.ToString();
         }
 
-        private string GetCharacterStream(Node node)
+        internal string GetCharacterStream(Node node)
         {
             StringBuilder nodeCS = new StringBuilder();
             bool hasProperty = false;
 
             // add node anchor handle
-            if (anchorList.HasAlias(node))
+            if (!node.IsAlias() && anchorList.HasAlias(node))
             {
                 nodeCS.Append("&");
                 nodeCS.Append(node.AnchorHandle);
@@ -140,13 +140,6 @@ namespace YICS.Serialization
                     throw new System.NotImplementedException("Unknown tag style " + UseTagStyle.ToString() + ".");
             }
 
-            // node options
-            var options = new PresentationOptions
-            {
-                IndentWidth = Tag.DefaultIndentWidth,
-                HasProperty = hasProperty
-            };
-
             // line break after directive end marker and/or node properties
             if (onDirectiveLine)
             {
@@ -156,23 +149,10 @@ namespace YICS.Serialization
             else if (hasProperty)
             {
                 nodeCS.AppendLine();
-                nodeCS.Append(' ', IndentWidth);
             }
 
-            switch (node.Tag.Kind)
-            {   
-                case Tag.KindType.Mapping:
-                    nodeCS.Append(node.PresentContent(options));
-                    break;
-                case Tag.KindType.Sequence:
-                    nodeCS.Append(((Sequence)node).CanonicalContent);
-                    break;
-                case Tag.KindType.Scalar:
-                    nodeCS.Append(((Scalar)node).CanonicalContent);
-                    break;
-                default:
-                    throw new System.NotImplementedException("Cannot present node of type " + node.Tag.Kind.ToString() + ".");
-            }
+            // format node content
+            nodeCS.Append(node.PresentContent(this));
 
             return nodeCS.ToString();
         }

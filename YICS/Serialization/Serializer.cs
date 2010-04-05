@@ -14,8 +14,9 @@ namespace YICS.Serialization
 
         public int IndentWidth = 2;
         public bool UseYAML12Directive = true;
-        public TagStyle UseTagStyle = TagStyle.Verbatim;
+        public TagStyle UseTagStyle = TagStyle.NonSpecific;
         public bool UseTagDirective = false; // shorten tags via tag handlers (for Shorthand) i.e. %TAG !e! tag:example.com,2000:app/
+        public bool MappingAlignColons = true;
 
         public bool DetectMerge = false; // attempt to clean up mappings by detecting common elements and using merge keys http://yaml.org/type/merge.html
 
@@ -30,7 +31,9 @@ namespace YICS.Serialization
             anchorList = new AnchorList();
         }
 
-        public Serializer(IEnumerable<Node> docList) {
+        public Serializer(Node[] docList) : this(new List<Node>(docList)) { } // hack to take in a list of nodes, can't use IEnumerable<Node> since Sequence node is an IEnumerable
+
+        public Serializer(List<Node> docList) {
             if (docList == null) throw new System.ArgumentNullException("docList");
 
             eventTreeRoots = new List<Node>(docList);

@@ -61,7 +61,6 @@
     <Compile Include="Serialization\AnchorRecord.cs" />
     <Compile Include="Serialization\CreateEventTree.cs" />
     <Compile Include="Serialization\GetCharacterStream.cs" />
-    <Compile Include="Serialization\PresentationOptions.cs" />
     <Compile Include="Serialization\Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

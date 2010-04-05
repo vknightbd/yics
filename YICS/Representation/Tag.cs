@@ -64,7 +64,7 @@ namespace YICS.Representation
         /// Returns a formatted string for content. Performed during Serialize.GetChearacterStream()
         /// </summary>
         /// <param name="indentWidth"></param>
-        public abstract string PresentContent(Node node, Serialization.PresentationOptions options);
+        public abstract string PresentContent(Node node, Serialization.Serializer serializer);
 
         /// <summary>
         /// Returns a formatted string for content. Required for Scalar nodes. Unused otherwise.

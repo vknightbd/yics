@@ -27,6 +27,8 @@ namespace YICS.Representation
             if (node.GetType() != typeof(Sequence) && !node.GetType().IsSubclassOf(typeof(Sequence)))
                 throw new InvalidOperationException("TagSequence can only be applied to Sequence nodes.");
 
+            if (!string.IsNullOrEmpty(node.AnchorHandle)) { return "DEBUG<" + node.AnchorHandle + ">"; }
+
             StringBuilder canonForm = new StringBuilder();
 
             if (!string.IsNullOrEmpty(node.AnchorHandle))
@@ -43,9 +45,21 @@ namespace YICS.Representation
             return canonForm.ToString();
         }
 
-        public override string PresentContent(Node node, Serialization.PresentationOptions options)
+        public override string PresentContent(Node node, Serialization.Serializer serializer)
         {
-            throw new NotImplementedException();
+            if (node.GetType() != typeof(Sequence) && !node.GetType().IsSubclassOf(typeof(Sequence)))
+                throw new InvalidOperationException("TagSequence can only be applied to Sequence nodes.");
+         
+            Sequence sequence = (Sequence)node;
+
+            StringBuilder sb = new StringBuilder();
+            foreach (Node n in sequence)
+            {
+                sb.Append("- ");
+                sb.Append(serializer.GetCharacterStream(n).IndentContent(serializer.IndentWidth));
+                sb.AppendLine();
+            }
+            return sb.ToString();
         }
     }
 }

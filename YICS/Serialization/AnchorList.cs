@@ -55,7 +55,10 @@ namespace YICS.Serialization
 
         public bool HasAlias(Node node)
         {
-            var record = list[node.GetHashCode()];
+            int hashCode = node.GetHashCode();
+            if (!list.ContainsKey(hashCode)) return false;
+
+            var record = list[hashCode];
             return record.HasAlias;
         }
     }
