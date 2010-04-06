@@ -65,7 +65,7 @@ namespace YICS.Serialization
 
                 // add each document
                 cs.Append(GetCharacterStream(eventTreeRoots[i]));
-                cs.AppendLine();
+                //cs.AppendLine();
             }
 
             if (eventTreeRoots.Count > 1)
@@ -78,83 +78,113 @@ namespace YICS.Serialization
 
         internal string GetCharacterStream(Node node)
         {
-            StringBuilder nodeCS = new StringBuilder();
-            bool hasProperty = false;
+            string property = string.Empty;
 
             // add node anchor handle
             if (!node.IsAlias() && anchorList.HasAlias(node))
             {
+                property = "&" + node.AnchorHandle + " ";
+                /*
                 nodeCS.Append("&");
                 nodeCS.Append(node.AnchorHandle);
                 nodeCS.Append(" ");
-                hasProperty = true;
+                 */
             }
 
             // add node tag
-            switch (UseTagStyle)
+            if (!node.IsAlias())
             {
-                case TagStyle.Verbatim:
-                    nodeCS.Append(node.Tag.Name);
-                    nodeCS.Append(" ");
-                    hasProperty = true;
-                    break;
-
-                case TagStyle.NonSpecific:
-                    bool isFailsafeSchema;
-                    switch (node.Tag.Suffix)
-                    {
-                        case "str":
-                        case "seq":
-                        case "map":
-                            isFailsafeSchema = true; break;
-                        default:
-                            isFailsafeSchema = false; break;
-                    }
-
-                    if (!isFailsafeSchema)
-                        goto case TagStyle.Shorthand;
-                    else
+                switch (UseTagStyle)
+                {
+                    case TagStyle.Verbatim:
+                        property += node.Tag.Name;
+                        /*
+                        nodeCS.Append(node.Tag.Name);
+                         */
                         break;
 
-                case TagStyle.Shorthand:
-                    if (UseTagDirective)
-                    {
-                        /* todo: store all prefixes and insert in directive spot */
-                    }
+                    case TagStyle.NonSpecific:
+                        bool isFailsafeSchema;
+                        switch (node.Tag.Suffix)
+                        {
+                            case "str":
+                            case "seq":
+                            case "map":
+                                isFailsafeSchema = true; break;
+                            default:
+                                isFailsafeSchema = false; break;
+                        }
 
-                    if (node.Tag.Prefix == Tag.SecondaryNamespace)
-                    {
-                        nodeCS.Append("!!");
-                        nodeCS.Append(node.Tag.Suffix);
-                    }
-                    else
-                    {
-                        nodeCS.Append(node.Tag.Name); // local tags or full uris  /* todo: remove full uri if UseTagDirective = true */
-                    }
+                        if (!isFailsafeSchema)
+                            goto case TagStyle.Shorthand;
+                        else
+                            break;
 
-                    nodeCS.Append(" ");
-                    hasProperty = true;
-                    break;
+                    case TagStyle.Shorthand:
+                        if (node.Tag.Prefix == Tag.SecondaryNamespace)
+                        {
+                            property += "!!" + node.Tag.Suffix;
+                            /*
+                            nodeCS.Append("!!");
+                            nodeCS.Append(node.Tag.Suffix);
+                             */
+                        }
+                        else if (UseTagDirective && node.Tag.Name.StartsWith("tag:"))
+                        {
+                            property += "!" + GetTagHandler(node.Tag.Prefix) + "!" + node.Tag.Suffix;
+                            /*
+                            nodeCS.Append("!");
+                            nodeCS.Append(GetTagHandler(node.Tag.Prefix));
+                            nodeCS.Append("!");
+                            nodeCS.Append(node.Tag.Suffix);
+                             */
+                        }
+                        else
+                        {
+                            property += node.Tag.Name;
+                            /*
+                            nodeCS.Append(node.Tag.Name); // local tags or full uris
+                             */
+                        }
 
-                default:
-                    throw new System.NotImplementedException("Unknown tag style " + UseTagStyle.ToString() + ".");
+                        break;
+
+                    default:
+                        throw new System.NotImplementedException("Unknown tag style " + UseTagStyle.ToString() + ".");
+                }
             }
+
+            // add node properties to character stream
+            StringBuilder cs = new StringBuilder();
+            bool hasProperty = property.Length > 0;
+            if (hasProperty)
+                cs.Append(property);
 
             // line break after directive end marker and/or node properties
             if (onDirectiveLine)
             {
-                nodeCS.AppendLine();
+                cs.AppendLine();
                 onDirectiveLine = false;
+                cs.Append(node.PresentContent(this)); // insert content immediately on line after directive end marker ---
             }
-            else if (hasProperty)
+            else
             {
-                nodeCS.AppendLine();
+                string content = node.PresentContent(this); // gotta calculate length and find \n in content to determine line break after properties
+
+                if (hasProperty && (property.Length + content.Length > LineLengthBreakOnTag || content.Contains("\n")))
+                {
+                    cs.AppendLine();
+                }
+                else
+                {
+                    if (hasProperty && !property.EndsWith(" "))
+                        cs.Append(" ");
+                }
+
+                cs.Append(content);
             }
 
-            // format node content
-            nodeCS.Append(node.PresentContent(this));
-
-            return nodeCS.ToString();
+            return cs.ToString();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace YICS.Representation
 {
-    public class Alias : Node
+    public class Alias : Node, IComparable
     {
         internal Alias(string handle, Node anchor)
         {
@@ -35,9 +35,10 @@ namespace YICS.Representation
 
         #region IComparable<Alias> Members
 
-        public int CompareTo(Alias other)
+        public int CompareTo(object other)
         {
-            return AnchorHandle.CompareTo(other.AnchorHandle);
+            Alias alias = (Alias)other;
+            return AnchorHandle.CompareTo(alias.AnchorHandle);
         }
 
         #endregion

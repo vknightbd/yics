@@ -30,7 +30,7 @@ namespace YICS.Serialization
             var record = new AnchorRecord()
             {
                 Node = node,
-                Handle = "id" + handleCounter.ToString().PadLeft(3, '0'),
+                Handle = node.Tag.Suffix + handleCounter.ToString().PadLeft(3, '0'),
                 HashCode = node.GetHashCode(),
                 HasAlias = false,
             };

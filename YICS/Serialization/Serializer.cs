@@ -17,19 +17,18 @@ namespace YICS.Serialization
         public TagStyle UseTagStyle = TagStyle.NonSpecific;
         public bool UseTagDirective = false; // shorten tags via tag handlers (for Shorthand) i.e. %TAG !e! tag:example.com,2000:app/
         public bool MappingAlignColons = true;
+        public int LineLengthBreakOnTag = 50; // line length 
+
+        public bool AliasLongScalars = true;
+        public int AliasLongScalarLength = 40; // length of scalars 
 
         public bool DetectMerge = false; // attempt to clean up mappings by detecting common elements and using merge keys http://yaml.org/type/merge.html
 
         private List<Node> eventTreeRoots;
         private AnchorList anchorList;
+        private Dictionary<string, string> tagPrefixes;
 
-        public Serializer(Node docRoot)
-        {
-            if (docRoot == null) throw new System.ArgumentNullException("docRoot");
-
-            eventTreeRoots = new List<Node>() { docRoot };
-            anchorList = new AnchorList();
-        }
+        public Serializer(Node docRoot) : this(new List<Node> { docRoot }) { }
 
         public Serializer(Node[] docList) : this(new List<Node>(docList)) { } // hack to take in a list of nodes, can't use IEnumerable<Node> since Sequence node is an IEnumerable
 
@@ -43,6 +42,21 @@ namespace YICS.Serialization
             }
 
             anchorList = new AnchorList();
+            tagPrefixes = new Dictionary<string, string>();
+        }
+
+        private string GetTagHandler(string tagPrefix)
+        {
+            if (tagPrefixes.ContainsKey(tagPrefix))
+            {
+                return tagPrefixes[tagPrefix];
+            }
+            else
+            {
+                string newTagPrefix = 't' + tagPrefixes.Count.ToString().PadLeft(2, '0');
+                tagPrefixes.Add(tagPrefix, newTagPrefix);
+                return newTagPrefix;
+            }
         }
     }
 }

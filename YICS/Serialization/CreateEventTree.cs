@@ -36,6 +36,14 @@ namespace YICS.Serialization
 
                 }
             }
+            else if (AliasLongScalars && node.IsScalar())
+            {
+                string content = node.CanonicalContent;
+                if (content.Contains("\n") || content.Length > AliasLongScalarLength)
+                {
+                    anchorList.Add(node);
+                }
+            }
         }
 
         private void SerializeMapping(Mapping mapping)

@@ -82,8 +82,8 @@ namespace YICS.Representation
             tmpAlias.Sort();
             tmpKeys.Sort(); // sort scalar keys by Scalar CompareTo (default string CompareTo)
 
-            tmpAlias.AddRange(tmpKeys);
-            return tmpAlias;
+            tmpKeys.InsertRange(0, tmpAlias);
+            return tmpKeys;
         }
 
         public override string PresentContent(Node node, Serialization.Serializer serializer)
