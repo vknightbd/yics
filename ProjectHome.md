@@ -1,0 +1,1 @@
+YICS is a YAML parser and serializer library written in C#.  Currently under development.  Starting with serializer (as most existing .NET YAML libraries already do parsing).  New functionality will be implementing mapping merge tags (<<) and support of cyclical representation graphs.
